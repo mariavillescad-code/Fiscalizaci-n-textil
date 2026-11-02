@@ -1,0 +1,523 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Fiscalización Textil IMMEX</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: bitácora de inspección en una columna; cada paso del documento es un bloque separado por una costura punteada. */
+:root{
+  --bg:#F3F5F9; --surface:#FFFFFF; --ink:#16213A; --muted:#566280; --line:#D3D9E6;
+  --denim:#2B4C8C; --denim-soft:#E4EBF8; --on-denim:#FFFFFF; --thread:#B86E0C; --thread-soft:#FBF0DD;
+  --ok:#1C7348; --bad:#B3261E;
+  --font-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1525; --surface:#162038; --ink:#E7EBF5; --muted:#9BA7C4; --line:#2A3553;
+  --denim:#8EAFF0; --denim-soft:#1D2C50; --on-denim:#0E1525; --thread:#F0AA43; --thread-soft:#2D2412;
+  --ok:#55C78D; --bad:#F28B82; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1525; --surface:#162038; --ink:#E7EBF5; --muted:#9BA7C4; --line:#2A3553;
+  --denim:#8EAFF0; --denim-soft:#1D2C50; --on-denim:#0E1525; --thread:#F0AA43; --thread-soft:#2D2412;
+  --ok:#55C78D; --bad:#F28B82; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--font-body);
+  padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(28px,5vw,44px);font-weight:700;letter-spacing:-.02em}
+h2{font-size:20px;font-weight:600;letter-spacing:-.01em}
+p{margin:0}
+.eyebrow{font:500 12px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--thread)}
+.lede{max-width:68ch;color:var(--muted);font-size:16px}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 12.5px var(--font-mono);padding:4px 10px;border-radius:999px;background:var(--denim-soft);color:var(--denim)}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.step-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;padding-bottom:12px;border-bottom:2px dashed var(--thread)}
+.tag{font:500 12px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--thread)}
+.note{font-size:13px;color:var(--muted);max-width:80ch}
+.mono{font-family:var(--font-mono)}
+.msg{font:400 15px/1.6 var(--font-mono);background:var(--thread-soft);border:1.5px dashed var(--thread);border-radius:8px;padding:14px 16px;overflow-wrap:anywhere}
+.msg b{color:var(--denim);font-weight:600}
+.bad{color:var(--bad)} .ok{color:var(--ok)}
+.btn{font:600 14px var(--font-body);background:var(--denim);color:var(--on-denim);border:0;border-radius:8px;padding:10px 16px;cursor:pointer}
+.btn.alt{background:var(--denim-soft);color:var(--denim)}
+.btn:hover{filter:brightness(1.08)}
+:where(.btn,input,select,summary,button):focus-visible{outline:3px solid var(--thread);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.dice{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.die{border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;gap:14px;align-items:center;min-width:0}
+.die .n{font:600 34px var(--font-display);color:var(--denim);min-width:1.6ch;text-align:center}
+.die small{display:block;color:var(--muted);font-size:12.5px}
+.die strong{font:600 14px var(--font-mono);overflow-wrap:anywhere}
+.tw{overflow:auto;max-height:430px;border:1px solid var(--line);border-radius:8px}
+.tw.free{max-height:none}
+table{border-collapse:collapse;width:100%;font:13px var(--font-mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--line)}
+th{position:sticky;top:0;background:var(--surface);font:600 12px var(--font-body);color:var(--muted);z-index:1;box-shadow:0 1px 0 var(--line)}
+th.k{color:var(--denim);background:var(--denim-soft)}
+td.k{background:color-mix(in srgb,var(--denim-soft) 55%,transparent)}
+td.r,th.r{text-align:right}
+td.i{color:var(--muted)}
+.cap{font:600 13px var(--font-body);color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.cols>*{min-width:0}
+label{font-weight:500;font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+input,select{font:15px var(--font-mono);padding:9px 11px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-width:0}
+input{width:min(100%,260px)}
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar{display:grid;grid-template-columns:130px 1fr 36px;gap:10px;align-items:center;font:13px var(--font-mono)}
+.bar .t{height:12px;border-radius:3px;background:var(--denim-soft);overflow:hidden}
+.bar .t i{display:block;height:100%;background:var(--denim)}
+.bar.alfa .t i{background:var(--thread)}
+.bar.alfa span:first-child{font-weight:600;color:var(--thread)}
+details summary{cursor:pointer;font-weight:600;color:var(--denim)}
+textarea{width:100%;height:120px;font:12px var(--font-mono);background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px}
+@media (max-width:520px){.bar{grid-template-columns:100px 1fr 30px}.step{padding:16px}}
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Proyecto 16 · Sector secundario · Programa IMMEX</div>
+    <h1>Fiscalización y Registro de Diversificación Textil y Confección de Exportación</h1>
+  </header>
+
+  <section class="step" aria-labelledby="h1s">
+    <div class="step-head"><span class="tag">Paso 1</span><h2 id="h1s">Introducción</h2></div>
+    <p class="lede">Este sistema revisa pedimentos de exportación y lotes de producción de textil y calzado. Carga 15,000 registros en memoria RAM, elige al azar un campo clave y un método para ordenarlos, y después elige al azar entre búsqueda lineal y binaria. Cada operación se mide en nanosegundos.</p>
+    <div class="facts"><span class="chip">15,000 registros</span><span class="chip">10 campos</span><span class="chip">3 campos clave</span><span class="chip">6 métodos de ordenamiento</span><span class="chip">2 búsquedas</span></div>
+    <p class="note">Los registros son sintéticos. Se generan en el navegador con la estructura de 10 campos del proyecto y una semilla fija, así que son los mismos en cada carga. No provienen de un padrón oficial.</p>
+  </section>
+
+  <section class="step" aria-labelledby="h2s">
+    <div class="step-head"><span class="tag">Paso 2</span><h2 id="h2s">Carga de datos en memoria RAM</h2></div>
+    <div class="msg" id="loadMsg" aria-live="polite">Cargando…</div>
+    <p class="note">La carga lee la fuente en formato CSV y construye un arreglo de 15,000 objetos, más un índice de texto normalizado para las búsquedas. El tiempo incluye todo ese proceso.</p>
+  </section>
+
+  <section class="step" aria-labelledby="h3s">
+    <div class="step-head"><span class="tag">Paso 3</span><h2 id="h3s">Registros cargados</h2><span class="note">Primeros 30 y últimos 30, en orden de carga. Las columnas marcadas son los campos clave.</span></div>
+    <div class="cols">
+      <div><div class="cap" style="margin-bottom:6px">Primeros 30 registros</div><div class="tw" id="tFirst"></div></div>
+      <div><div class="cap" style="margin-bottom:6px">Últimos 30 registros</div><div class="tw" id="tLast"></div></div>
+    </div>
+  </section>
+
+  <section class="step" aria-labelledby="h4s">
+    <div class="step-head"><span class="tag">Paso 4</span><h2 id="h4s">Disparador aleatorio de ordenación</h2></div>
+    <div class="row"><button class="btn" id="btnRun" type="button">Nueva ejecución</button><span class="mono" id="execNo" style="color:var(--muted)"></span></div>
+    <div class="dice" id="dice" aria-live="polite"></div>
+  </section>
+
+  <section class="step" aria-labelledby="h5s">
+    <div class="step-head"><span class="tag">Paso 5</span><h2 id="h5s">Medición del algoritmo de ordenamiento</h2></div>
+    <div class="msg" id="sortMsg" aria-live="polite"></div>
+    <div class="note" id="sortNote"></div>
+    <details><summary>Ver el resultado ordenado (primeros 30 y últimos 30)</summary>
+      <div class="cols" style="margin-top:12px"><div class="tw" id="sFirst"></div><div class="tw" id="sLast"></div></div>
+    </details>
+  </section>
+
+  <section class="step" aria-labelledby="h6s">
+    <div class="step-head"><span class="tag">Paso 6</span><h2 id="h6s">Disparador aleatorio de búsqueda</h2></div>
+    <div class="row"><button class="btn alt" id="btnSearchRoll" type="button">Nuevo disparo de búsqueda</button></div>
+    <div class="dice" id="sdice" aria-live="polite"></div>
+    <form id="sform" class="row" style="align-items:flex-end"></form>
+    <div class="msg" id="srMsg" aria-live="polite" hidden></div>
+    <div class="tw free" id="srTable" style="max-height:430px" hidden></div>
+  </section>
+
+  <section class="step" aria-labelledby="h7s">
+    <div class="step-head"><span class="tag">Paso 7</span><h2 id="h7s">Método Alfa</h2><span class="note">El Alfa es el método más seleccionado en las ejecuciones de esta sesión.</span></div>
+    <div class="msg" id="alfaMsg" aria-live="polite"></div>
+    <div class="bars" id="bars"></div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px">
+      <div class="row" style="justify-content:space-between"><div class="cap">Bitácora de ejecuciones (mismas columnas del formato de Excel)</div><button class="btn alt" id="btnCopy" type="button">Copiar bitácora</button></div>
+      <div class="tw free" id="log"></div>
+      <textarea id="copyArea" readonly hidden aria-label="Bitácora en texto para copiar"></textarea>
+      <p class="note">Al recargar la página se reinicia el conteo. El formato de Excel se llena a mano en cada entrega; esta bitácora solo sirve para consultar los valores.</p>
+    </div>
+  </section>
+
+  <section class="step" aria-labelledby="hns">
+    <div class="step-head"><span class="tag">Notas</span><h2 id="hns">Cómo se mide y se cuenta</h2></div>
+    <p class="note">Los nanosegundos se calculan a partir de <span class="mono">performance.now()</span> (milisegundos × 1,000,000). Los navegadores redondean ese reloj, por eso las búsquedas, que duran microsegundos, se repiten hasta acumular al menos 3 ms y se reporta el promedio por repetición. Las comparaciones son comparaciones entre llaves. Los intercambios/movimientos son intercambios de posición (Quick y Heap Sort) o escrituras de registros (Merge, Radix, Counting y Bucket Sort). Los métodos de distribución casi no comparan llaves, así que sus comparaciones son pocas.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+"use strict";
+const N = 15000;
+const fmt = n => Math.round(n).toLocaleString("es-MX");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $ = id => document.getElementById(id);
+const randInt = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const normTxt = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+
+/* ---------- Estructura de campos ---------- */
+const COLS = [
+  {k:"id_pedimento_exportacion", t:"int", key:1},
+  {k:"volumen_piezas_lote", t:"int", key:2},
+  {k:"fecha_empaque", t:"int", key:3},
+  {k:"tipo_producto", t:"txt"},
+  {k:"nombre_empresa", t:"txt"},
+  {k:"estado", t:"txt"},
+  {k:"municipio", t:"txt"},
+  {k:"pais_destino", t:"txt"},
+  {k:"porcentaje_insumos_nacionales", t:"flt"},
+  {k:"costo_promedio_unidad_mxn", t:"flt"}
+];
+const KEYFIELDS = [
+  {n:1, key:"id_pedimento_exportacion", methods:["Radix Sort","Counting Sort"]},
+  {n:2, key:"volumen_piezas_lote", methods:["Bucket Sort"]},
+  {n:3, key:"fecha_empaque", methods:["Quick Sort","Merge Sort","Heap Sort"]}
+];
+const ALL_METHODS = ["Radix Sort","Counting Sort","Bucket Sort","Quick Sort","Merge Sort","Heap Sort"];
+
+/* ---------- Generación de la fuente CSV (sintética, semilla fija) ---------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const COMPANIES = [
+ ["Confecciones El León S.A.","Guanajuato","León","t"],["Grupo Textil Tepeji","Hidalgo","Tepeji del Río","t"],
+ ["Hilados y Tejidos Tehuacán S.A. de C.V.","Puebla","Tehuacán","t"],["Denim del Valle S.A.","Puebla","Tehuacán","t"],
+ ["Maquilas Textiles Naucalpan","Estado de México","Naucalpan","t"],["Industrial Textil Aguascalientes","Aguascalientes","Aguascalientes","t"],
+ ["Confecciones del Bajío S.A. de C.V.","Guanajuato","Moroleón","t"],["Textiles Moroleón S.A.","Guanajuato","Moroleón","t"],
+ ["Uriangato Knits S.A. de C.V.","Guanajuato","Uriangato","t"],["Tejidos Tulancingo S.A.","Hidalgo","Tulancingo","t"],
+ ["Manufacturas Textiles Toluca","Estado de México","Toluca","t"],["Ropa Deportiva Tlalnepantla S.A.","Estado de México","Tlalnepantla","t"],
+ ["Uniformes Industriales Pachuca","Hidalgo","Pachuca","t"],["Confecciones Los Romo S.A.","Aguascalientes","San Francisco de los Romo","t"],
+ ["Bordados y Costura Tepeaca","Puebla","Tepeaca","t"],["Jeans Puebla Exportación S.A.","Puebla","Puebla","t"],
+ ["Hilos del Centro S.A.","Aguascalientes","Jesús María","t"],["Textil Atlacomulco S.A.","Estado de México","Atlacomulco","t"],
+ ["Calzado León Premier S.A.","Guanajuato","León","c"],["Calzado del Rincón S.A. de C.V.","Guanajuato","San Francisco del Rincón","c"],
+ ["Botas y Calzado Purísima","Guanajuato","Purísima del Rincón","c"],["Pieles y Calzado Silao S.A.","Guanajuato","Silao","c"],
+ ["Calzado Deportivo Bajío","Guanajuato","León","c"],["Manufacturas de Calzado Irapuato","Guanajuato","Irapuato","c"],
+ ["Zapatos Finos Aguascalientes","Aguascalientes","Aguascalientes","c"],["Calzado Industrial Toluca","Estado de México","Toluca","c"],
+ ["Curtidos y Calzado Pachuca","Hidalgo","Pachuca","c"],["Calzado Puebla Norte","Puebla","Puebla","c"]
+];
+const PRODUCTS = {
+ t:[["Mezclilla Denim",150,320],["Playera de Algodón",60,150],["Chamarra de Poliéster",180,420],["Uniformes Industriales",120,280],["Ropa Deportiva",110,300],["Ropa Interior de Algodón",35,95]],
+ c:[["Calzado Deportivo",280,820],["Calzado de Vestir de Piel",380,980],["Bota de Trabajo",300,760],["Sandalia de Piel",160,420],["Calzado Escolar",140,330]]
+};
+const DESTS = [["Estados Unidos",62],["Canadá",12],["Guatemala",6],["España",5],["Colombia",4],["Alemania",3],["Chile",3],["Japón",2],["Honduras",3]];
+function buildCsvSource(){
+  const r = mulberry32(16), ids = new Set(), lines = [COLS.map(c=>c.k).join(",")];
+  const totalW = DESTS.reduce((s,d)=>s+d[1],0), base = Date.UTC(2025,0,1);
+  while (ids.size < N) ids.add(1000000 + Math.floor(r()*1000000));
+  let i = 0;
+  for (const id of ids){
+    const co = COMPANIES[Math.floor(r()*COMPANIES.length)];
+    const prods = PRODUCTS[co[3]], p = prods[Math.floor(r()*prods.length)];
+    const vol = 500 + 10*Math.floor((r()*r())*5950);
+    const d = new Date(base + Math.floor(r()*669)*86400000);
+    const fecha = d.getUTCFullYear()*10000 + (d.getUTCMonth()+1)*100 + d.getUTCDate();
+    let w = r()*totalW, dest = DESTS[0][0];
+    for (const x of DESTS){ if ((w -= x[1]) < 0){ dest = x[0]; break; } }
+    const pct = (20 + r()*75).toFixed(2), cost = (p[1] + r()*(p[2]-p[1])).toFixed(2);
+    lines.push([id, vol, fecha, p[0], co[0], co[1], co[2], dest, pct, cost].join(","));
+    i++;
+  }
+  return lines.join("\n");
+}
+
+/* ---------- Carga en RAM (cronometrada) ---------- */
+let DATA = [], NORM = {};
+function loadFromCsv(csv){
+  const lines = csv.split("\n"), out = new Array(lines.length - 1);
+  const norm = {tipo_producto:[],nombre_empresa:[],estado:[],municipio:[],pais_destino:[]};
+  for (let i = 1; i < lines.length; i++){
+    const f = lines[i].split(",");
+    out[i-1] = {
+      id_pedimento_exportacion:+f[0], volumen_piezas_lote:+f[1], fecha_empaque:+f[2],
+      tipo_producto:f[3], nombre_empresa:f[4], estado:f[5], municipio:f[6], pais_destino:f[7],
+      porcentaje_insumos_nacionales:parseFloat(f[8]), costo_promedio_unidad_mxn:parseFloat(f[9])
+    };
+    norm.tipo_producto.push(normTxt(f[3])); norm.nombre_empresa.push(normTxt(f[4])); norm.estado.push(normTxt(f[5]));
+    norm.municipio.push(normTxt(f[6])); norm.pais_destino.push(normTxt(f[7]));
+  }
+  return {out, norm};
+}
+
+/* ---------- Algoritmos de ordenamiento ---------- */
+function radixSort(a,k){
+  let c=0,m=0,n=a.length,max=a[0][k];
+  for(let i=1;i<n;i++){c++; if(a[i][k]>max)max=a[i][k];}
+  let src=a,dst=new Array(n);
+  for(let exp=1;Math.floor(max/exp)>0;exp*=10){
+    const cnt=new Int32Array(10);
+    for(let i=0;i<n;i++)cnt[Math.floor(src[i][k]/exp)%10]++;
+    for(let d=1;d<10;d++)cnt[d]+=cnt[d-1];
+    for(let i=n-1;i>=0;i--){const d=Math.floor(src[i][k]/exp)%10;dst[--cnt[d]]=src[i];m++;}
+    const t=src;src=dst;dst=t;
+  }
+  return {out:src,comps:c,moves:m};
+}
+function countingSort(a,k){
+  let c=0,m=0,n=a.length,min=a[0][k],max=a[0][k];
+  for(let i=1;i<n;i++){const v=a[i][k];c++;if(v<min)min=v;c++;if(v>max)max=v;}
+  const cnt=new Int32Array(max-min+1),out=new Array(n);
+  for(let i=0;i<n;i++)cnt[a[i][k]-min]++;
+  for(let i=1;i<cnt.length;i++)cnt[i]+=cnt[i-1];
+  for(let i=n-1;i>=0;i--){out[--cnt[a[i][k]-min]]=a[i];m++;}
+  return {out,comps:c,moves:m};
+}
+function bucketSort(a,k){
+  let c=0,m=0,n=a.length,min=a[0][k],max=a[0][k];
+  for(let i=1;i<n;i++){const v=a[i][k];c++;if(v<min)min=v;c++;if(v>max)max=v;}
+  const B=1000,range=max-min+1,buckets=Array.from({length:B},()=>[]);
+  for(let i=0;i<n;i++){const b=Math.min(B-1,Math.floor((a[i][k]-min)/range*B));buckets[b].push(a[i]);m++;}
+  const out=[];
+  for(const b of buckets){
+    for(let i=1;i<b.length;i++){
+      const x=b[i];let j=i-1;
+      while(j>=0){c++;if(b[j][k]>x[k]){b[j+1]=b[j];m++;j--;}else break;}
+      if(j+1!==i){b[j+1]=x;m++;}
+    }
+    for(let i=0;i<b.length;i++){out.push(b[i]);m++;}
+  }
+  return {out,comps:c,moves:m};
+}
+function quickSort(a,k){
+  let c=0,m=0;
+  function qs(lo,hi){
+    while(lo<hi){
+      const p=a[(lo+hi)>>1][k];let i=lo,j=hi;
+      while(i<=j){
+        for(;;){c++;if(a[i][k]<p)i++;else break;}
+        for(;;){c++;if(a[j][k]>p)j--;else break;}
+        if(i<=j){if(i<j){const t=a[i];a[i]=a[j];a[j]=t;m++;}i++;j--;}
+      }
+      if(j-lo<hi-i){qs(lo,j);lo=i;}else{qs(i,hi);hi=j;}
+    }
+  }
+  qs(0,a.length-1);
+  return {out:a,comps:c,moves:m};
+}
+function mergeSort(a,k){
+  let c=0,m=0;const tmp=new Array(a.length);
+  function ms(lo,hi){
+    if(hi<=lo)return;
+    const mid=(lo+hi)>>1;ms(lo,mid);ms(mid+1,hi);
+    for(let x=lo;x<=hi;x++)tmp[x]=a[x];
+    let i=lo,j=mid+1;
+    for(let x=lo;x<=hi;x++){
+      if(i>mid)a[x]=tmp[j++];
+      else if(j>hi)a[x]=tmp[i++];
+      else{c++;if(tmp[j][k]<tmp[i][k])a[x]=tmp[j++];else a[x]=tmp[i++];}
+      m++;
+    }
+  }
+  ms(0,a.length-1);
+  return {out:a,comps:c,moves:m};
+}
+function heapSort(a,k){
+  let c=0,m=0;const n=a.length;
+  function sift(i,end){
+    for(;;){
+      const l=2*i+1;if(l>=end)break;
+      let big=l;const r=l+1;
+      if(r<end){c++;if(a[r][k]>a[l][k])big=r;}
+      c++;
+      if(a[big][k]>a[i][k]){const t=a[i];a[i]=a[big];a[big]=t;m++;i=big;}else break;
+    }
+  }
+  for(let i=(n>>1)-1;i>=0;i--)sift(i,n);
+  for(let e=n-1;e>0;e--){const t=a[0];a[0]=a[e];a[e]=t;m++;sift(0,e);}
+  return {out:a,comps:c,moves:m};
+}
+const SORTERS = {"Radix Sort":radixSort,"Counting Sort":countingSort,"Bucket Sort":bucketSort,"Quick Sort":quickSort,"Merge Sort":mergeSort,"Heap Sort":heapSort};
+function isSorted(a,k){for(let i=1;i<a.length;i++)if(a[i-1][k]>a[i][k])return false;return true;}
+
+/* ---------- Búsquedas ---------- */
+function binarySearch(arr,k,target){
+  let lo=0,hi=arr.length-1,c=0,first=-1;
+  while(lo<=hi){
+    const mid=(lo+hi)>>1;c++;
+    const v=arr[mid][k];
+    if(v<target)lo=mid+1;else{if(v===target)first=mid;hi=mid-1;}
+  }
+  let last=first;
+  if(first>=0){
+    while(last+1<arr.length){c++;if(arr[last+1][k]===target)last++;else break;}
+  }
+  return {first,last,comps:c};
+}
+function linearSearch(arr,field,type,target){
+  const hits=[];let c=0;
+  const nm=type==="txt"?NORM[field]:null;
+  for(let i=0;i<arr.length;i++){
+    c++;
+    if(type==="txt"){if(nm[i].indexOf(target)!==-1)hits.push(i);}
+    else if(type==="int"){if(arr[i][field]===target)hits.push(i);}
+    else if(Math.abs(arr[i][field]-target)<1e-9)hits.push(i);
+  }
+  return {hits,comps:c};
+}
+function timeAvg(fn){
+  fn();
+  let reps=1,el=0;
+  for(;;){
+    const t0=performance.now();
+    for(let r=0;r<reps;r++)fn();
+    el=performance.now()-t0;
+    if(el>=3||reps>=(1<<22))break;
+    reps*=4;
+  }
+  return {ns:el*1e6/reps,reps};
+}
+
+/* ---------- Render de tablas ---------- */
+function cellVal(col,v){
+  if(col.t==="flt")return col.k.startsWith("costo")?"$"+v.toFixed(2):v.toFixed(2)+" %";
+  if(col.k==="volumen_piezas_lote")return fmt(v);
+  return esc(v);
+}
+function tableHTML(rows,startNo,opts){
+  opts=opts||{};
+  let h="<table><thead><tr><th class='r'>"+(opts.posLabel||"#")+"</th>";
+  for(const c of COLS)h+="<th class='"+(c.key?"k":"")+(c.t!=="txt"?" r":"")+"'>"+c.k+(c.key?" · K"+c.key:"")+"</th>";
+  h+="</tr></thead><tbody>";
+  rows.forEach((r,i)=>{
+    h+="<tr><td class='i r'>"+(opts.positions?fmt(opts.positions[i]):fmt(startNo+i))+"</td>";
+    for(const c of COLS)h+="<td class='"+(c.key?"k ":"")+(c.t!=="txt"?"r":"")+"'>"+cellVal(c,r[c.k])+"</td>";
+    h+="</tr>";
+  });
+  return h+"</tbody></table>";
+}
+
+/* ---------- Estado ---------- */
+const S = {exec:0, history:[], counts:{}, sorted:null, field:null, searchType:null};
+ALL_METHODS.forEach(m=>S.counts[m]=0);
+
+function renderAlfa(){
+  const total=S.exec,max=Math.max(...ALL_METHODS.map(m=>S.counts[m]));
+  const alfas=ALL_METHODS.filter(m=>max>0&&S.counts[m]===max);
+  $("alfaMsg").innerHTML = max===0 ? "Aún no hay ejecuciones." :
+    alfas.length===1 ? "Método Alfa: <b>"+alfas[0]+"</b> con "+max+(max>1?" selecciones":" selección")+" de "+total+(total>1?" ejecuciones":" ejecución")+"."
+                     : "Empate de métodos Alfa: <b>"+alfas.join("</b>, <b>")+"</b> con "+max+(max>1?" selecciones":" selección")+" cada uno, en "+total+" ejecuciones.";
+  $("bars").innerHTML = ALL_METHODS.map(m=>{
+    const v=S.counts[m],w=max?Math.round(v/max*100):0,isA=alfas.includes(m);
+    return "<div class='bar"+(isA?" alfa":"")+"'><span>"+m+"</span><span class='t'><i style='width:"+w+"%'></i></span><span>"+v+"</span></div>";
+  }).join("");
+  $("log").innerHTML = "<table><thead><tr><th class='r'>Ejecución núm.</th><th class='r'>Campo clave (1-3)</th><th>Nombre del campo</th><th>Método de ordenamiento</th><th class='r'>Tiempo (ns)</th><th>Búsqueda</th></tr></thead><tbody>"+
+    S.history.map(h=>"<tr><td class='r'>"+h.n+"</td><td class='r'>"+h.fieldNo+"</td><td>"+h.field+"</td><td>"+h.method+"</td><td class='r'>"+fmt(h.ns)+" ns</td><td>"+h.search+"</td></tr>").join("")+"</tbody></table>";
+}
+
+function diceHTML(items){
+  return items.map(i=>"<div class='die'><div class='n'>"+i.n+"</div><div><small>"+i.label+"</small><strong>"+i.value+"</strong></div></div>").join("");
+}
+
+function runExecution(){
+  S.exec++;
+  $("execNo").textContent="Ejecución núm. "+S.exec;
+  const fNo=randInt(1,3),f=KEYFIELDS[fNo-1];
+  const mNo=randInt(1,f.methods.length),method=f.methods[mNo-1];
+  $("dice").innerHTML=diceHTML([
+    {n:fNo,label:"Número aleatorio de campo clave (1 a 3)",value:f.key},
+    {n:mNo,label:"Número aleatorio de método (1 a "+f.methods.length+")",value:method}
+  ]);
+  const copy=DATA.slice();
+  const t0=performance.now();
+  const res=SORTERS[method](copy,f.key);
+  const ns=Math.round((performance.now()-t0)*1e6);
+  const ok=isSorted(res.out,f.key);
+  S.sorted=res.out;S.field=f;S.counts[method]++;
+  const entry={n:S.exec,fieldNo:fNo,field:f.key,method,ns,search:"—"};
+  S.history.push(entry);S.lastEntry=entry;
+  $("sortMsg").innerHTML="Se ordenaron "+fmt(N)+" registros por el campo <b>"+f.key+"</b> usando el método <b>"+method+"</b> en <b>"+fmt(ns)+"</b> nanosegundos. Comparaciones: <b>"+fmt(res.comps)+"</b>, Intercambios/Movimientos: <b>"+fmt(res.moves)+"</b>";
+  $("sortNote").innerHTML=ok?"<span class='ok'>Verificación: el arreglo quedó en orden ascendente por "+f.key+".</span>":"<span class='bad'>Verificación fallida: el arreglo no quedó ordenado.</span>";
+  $("sFirst").innerHTML=tableHTML(res.out.slice(0,30),1);
+  $("sLast").innerHTML=tableHTML(res.out.slice(N-30),N-29);
+  renderAlfa();
+  rollSearch();
+}
+
+/* ---------- Búsqueda ---------- */
+function rollSearch(){
+  const sNo=randInt(1,2);S.searchType=sNo===1?"Lineal":"Binaria";
+  if(S.lastEntry)S.lastEntry.search=S.searchType;
+  $("sdice").innerHTML=diceHTML([{n:sNo,label:"Número aleatorio de búsqueda (1 = lineal, 2 = binaria)",value:"Búsqueda "+S.searchType}]);
+  $("srMsg").hidden=true;$("srTable").hidden=true;
+  const form=$("sform");
+  if(S.searchType==="Binaria"){
+    form.innerHTML="<label for='sval'>Valor a buscar en <span class='mono'>"+S.field.key+"</span> (campo ya ordenado)<input id='sval' inputmode='numeric' autocomplete='off' placeholder='"+(S.field.key==="fecha_empaque"?"AAAAMMDD":"número entero")+"'></label>"+
+      "<button class='btn' type='submit'>Buscar</button><button class='btn alt' type='button' id='sample'>Usar un valor existente</button>";
+  }else{
+    form.innerHTML="<label for='sfield'>Campo donde buscar<select id='sfield'>"+COLS.map(c=>"<option value='"+c.k+"'"+(c.k===S.field.key?" selected":"")+">"+c.k+"</option>").join("")+"</select></label>"+
+      "<label for='sval'>Dato a buscar<input id='sval' autocomplete='off' placeholder='dato'></label>"+
+      "<button class='btn' type='submit'>Buscar</button><button class='btn alt' type='button' id='sample'>Usar un valor existente</button>";
+  }
+  renderAlfa();
+}
+function showSearchResult(html,rows,positions){
+  const m=$("srMsg");m.innerHTML=html;m.hidden=false;
+  const t=$("srTable");
+  if(rows&&rows.length){t.innerHTML=tableHTML(rows,0,{positions,posLabel:"Posición"});t.hidden=false;}else t.hidden=true;
+}
+function onSearch(e){
+  e.preventDefault();
+  const raw=$("sval").value.trim();
+  if(!raw){showSearchResult("<span class='bad'>Escribe un dato para buscar.</span>");return;}
+  if(S.searchType==="Binaria"){
+    const k=S.field.key,digits=raw.replace(/\D/g,"");
+    if(!digits||(k==="fecha_empaque"&&digits.length!==8)){showSearchResult("<span class='bad'>Escribe un número entero válido"+(k==="fecha_empaque"?" con formato AAAAMMDD (por ejemplo 20260228)":"")+".</span>");return;}
+    const target=parseInt(digits,10),arr=S.sorted;
+    const r=binarySearch(arr,k,target),t=timeAvg(()=>binarySearch(arr,k,target));
+    const bench="Comparaciones: <b>"+fmt(r.comps)+"</b>. Tiempo: <b>"+fmt(t.ns)+"</b> nanosegundos (promedio de "+fmt(t.reps)+" repeticiones).";
+    if(r.first<0)showSearchResult("Búsqueda binaria de <b>"+target+"</b> en <b>"+k+"</b>: no se encontró ningún registro. "+bench);
+    else{
+      const cnt=r.last-r.first+1,show=Math.min(cnt,30),pos=[];
+      for(let i=0;i<show;i++)pos.push(r.first+i+1);
+      showSearchResult("Búsqueda binaria de <b>"+target+"</b> en <b>"+k+"</b>: "+fmt(cnt)+" coincidencia"+(cnt>1?"s":"")+(cnt>1?" en las posiciones "+fmt(r.first+1)+" a "+fmt(r.last+1):" en la posición "+fmt(r.first+1))+" del arreglo ordenado"+(cnt>30?" (se muestran 30)":"")+". "+bench,arr.slice(r.first,r.first+show),pos);
+    }
+  }else{
+    const field=$("sfield").value,col=COLS.find(c=>c.k===field);
+    let target;
+    if(col.t==="txt")target=normTxt(raw);
+    else{
+      target=col.t==="int"?parseInt(raw.replace(/\D/g,""),10):parseFloat(raw.replace(",","."));
+      if(!isFinite(target)){showSearchResult("<span class='bad'>Ese campo es numérico. Escribe un número válido.</span>");return;}
+    }
+    const r=linearSearch(DATA,field,col.t,target),t=timeAvg(()=>linearSearch(DATA,field,col.t,target));
+    const bench="Comparaciones: <b>"+fmt(r.comps)+"</b>. Tiempo: <b>"+fmt(t.ns)+"</b> nanosegundos (promedio de "+fmt(t.reps)+" repeticiones).";
+    const how=col.t==="txt"?"contiene el texto, sin distinguir mayúsculas ni acentos,":"igual a";
+    const cnt=r.hits.length,show=Math.min(cnt,30);
+    if(!cnt)showSearchResult("Búsqueda lineal en <b>"+field+"</b> ("+how+" <b>"+esc(raw)+"</b>): no se encontró ningún registro. "+bench);
+    else showSearchResult("Búsqueda lineal en <b>"+field+"</b> ("+how+" <b>"+esc(raw)+"</b>): "+fmt(cnt)+" coincidencia"+(cnt>1?"s":"")+(cnt>30?" (se muestran 30)":"")+". "+bench,r.hits.slice(0,show).map(i=>DATA[i]),r.hits.slice(0,show).map(i=>i+1));
+  }
+}
+function onFormClick(e){
+  if(e.target.id!=="sample")return;
+  const rec=DATA[randInt(0,N-1)];
+  const field=S.searchType==="Binaria"?S.field.key:$("sfield").value;
+  $("sval").value=rec[field];
+}
+
+/* ---------- Copiar bitácora ---------- */
+function copyLog(){
+  const tsv=S.history.map(h=>[h.n,h.fieldNo,h.field,h.method,h.ns+" ns"].join("\t")).join("\n");
+  const ta=$("copyArea");
+  const fallback=()=>{ta.value=tsv;ta.hidden=false;ta.select();};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(tsv).then(()=>{$("btnCopy").textContent="Copiado";setTimeout(()=>$("btnCopy").textContent="Copiar bitácora",1600);},fallback);
+  }else fallback();
+}
+
+/* ---------- Arranque ---------- */
+const csv=buildCsvSource();
+const t0=performance.now();
+const loaded=loadFromCsv(csv);
+const loadNs=Math.round((performance.now()-t0)*1e6);
+DATA=loaded.out;NORM=loaded.norm;
+$("loadMsg").innerHTML="Se cargaron <b>"+fmt(DATA.length)+"</b> registros de <b>"+COLS.length+"</b> campos en un arreglo de objetos en memoria RAM en <b>"+fmt(loadNs)+"</b> nanosegundos.";
+$("tFirst").innerHTML=tableHTML(DATA.slice(0,30),1);
+$("tLast").innerHTML=tableHTML(DATA.slice(N-30),N-29);
+$("btnRun").addEventListener("click",runExecution);
+$("btnSearchRoll").addEventListener("click",rollSearch);
+$("btnCopy").addEventListener("click",copyLog);
+$("sform").addEventListener("submit",onSearch);
+$("sform").addEventListener("click",onFormClick);
+runExecution();
+})();
+</script>
+
+</body></html>
